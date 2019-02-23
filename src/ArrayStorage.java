@@ -17,6 +17,8 @@ public class ArrayStorage {
             if (checkResumeIsExists(resume) == -1) {
                 storage[size] = resume;
                 size++;
+            } else {
+                System.out.println("Resume is exist! Create another resume");
             }
         } else {
             System.out.println("Attention!!! Massive storage is overflow");
