@@ -37,11 +37,15 @@ public class MainArray {
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(uuid);
+                    r = new Resume();
+                    r.uuid = uuid;
+                    ARRAY_STORAGE.delete(r);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    r = new Resume();
+                    r.uuid = uuid;
+                    System.out.println(ARRAY_STORAGE.get(r));
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();

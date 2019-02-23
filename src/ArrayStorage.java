@@ -1,68 +1,76 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    static int count = 0;
+    static int size = 0;
 
     void clear() {
-        for (int i = 0; i < count; i++) {
-            storage[i] = null;
-        }
-        count = 0;
+        Arrays.fill(storage, null);
+        size = 0;
     }
 
-    void save(Resume r) {
-        boolean isObjectInArray = false;
-        for (int i = 0; i < count; i++) {
-                if (r.uuid.equals(storage[i].uuid)) {
-                    isObjectInArray = true;
-                }
-        }
-        if (!isObjectInArray) {
-            storage[count] = r;
-            count++;
-        }
-    }
-
-    Resume get(String uuid) {
-        for (int i = 0; i < count; i++) {
-            if (uuid.equals(storage[i].uuid)) {
-                return storage[i];
+    void save(Resume resume) {
+        if (size < 10000) {
+            if (checkResumeIsExists(resume) == -1) {
+                storage[size] = resume;
+                size++;
             }
+        } else {
+            System.out.println("Attention!!! Massive storage is overflow");
         }
-        return null;
     }
 
-    void delete(String uuid) {
-        int cursor = -1;
-        for (int i = 0; i < count; i++) {
-            if (uuid.equals(storage[i].uuid)) {
-                cursor = i;
-                break;
-            }
-        }
+    Resume get(Resume resume) {
+        int cursor = checkResumeIsExists(resume);
         if (cursor > -1) {
-            for (int i = cursor; i < count - 1; i++) {
-                storage[i] = storage[i + 1];
-            }
-            storage[count - 1] = null;
-            count--;
+            return storage[cursor];
+        } else {
+            System.out.println("Do not get resume! Resume is not found!");
+            return null;
         }
+    }
+
+    void delete(Resume resume) {
+        int cursor = checkResumeIsExists(resume);
+        if (cursor > -1) {
+            storage[cursor] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("Do not delete resume! Resume is not found");
+        }
+    }
+
+    void update(Resume resume) {
+        int cursor = checkResumeIsExists(resume);
+        if (cursor > -1) {
+            storage[cursor] = resume;
+        } else {
+            System.out.println("Do not update resume! Resume is not found");
+        }
+    }
+
+    int checkResumeIsExists(Resume resume) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(resume.uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] storageWithoutNull = new Resume[count];
-        for (int i = 0; i < count; i++ ) {
-            storageWithoutNull[i] = storage[i];
-        }
-        return storageWithoutNull;
+        Resume[] storageWithoutNull = new Resume[size];
+        return storageWithoutNull = Arrays.copyOf(storage, size);
     }
 
     int size() {
-        return count;
+        return size;
     }
 }
