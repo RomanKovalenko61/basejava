@@ -1,16 +1,18 @@
+package storage;
+
+import model.Resume;
+
 import java.util.Arrays;
 
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
+public class ArrayStorage implements Storage {
     private Resume[] storage = new Resume[10_000];
     private int size = 0;
 
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -30,7 +32,7 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index > -1 && index < storage.length) {
+        if (index > -1) {
             return storage[index];
         } else {
             System.out.println("Resume is not found for get");
@@ -49,17 +51,16 @@ public class ArrayStorage {
         }
     }
 
-    private int getIndex(String uuid) {
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                return i;
-            }
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index > -1) {
+            storage[index] = resume;
+        } else {
+            System.out.println("Resume is not found for update");
         }
-        return index;
     }
 
-    /**
+       /**
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
@@ -70,12 +71,12 @@ public class ArrayStorage {
         return size;
     }
 
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index > -1) {
-            storage[index] = resume;
-        } else {
-            System.out.println("Resume is not found for update");
+    private int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
         }
+        return -1;
     }
 }
