@@ -1,11 +1,12 @@
 import model.Resume;
 import storage.ArrayStorage;
+import storage.Storage;
 
 /**
  * Test for your storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
@@ -14,14 +15,21 @@ public class MainTestArrayStorage {
         r2.setUuid("uuid2");
         Resume r3 = new Resume();
         r3.setUuid("uuid3");
+        Resume r5 = new Resume();
+        r5.setUuid("uuid5");
+        Resume r6 = new Resume();
+        r6.setUuid("uuid6");
 
         // my update for test
         Resume r4 = new Resume();
         r4.setUuid("dummy");
 
         ARRAY_STORAGE.save(r1);
+        ARRAY_STORAGE.save(r5);
+        ARRAY_STORAGE.save(r6);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+
 
         // print all not null resume in storage
         printAll();
