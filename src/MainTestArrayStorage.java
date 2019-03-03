@@ -12,7 +12,7 @@ public class MainTestArrayStorage {
         Resume r1 = new Resume();
         r1.setUuid("uuid1");
         Resume r2 = new Resume();
-        r2.setUuid("uuid2");
+        r2.setUuid("uuid9");
         Resume r3 = new Resume();
         r3.setUuid("uuid3");
         Resume r5 = new Resume();
@@ -44,7 +44,7 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.update(r1);
         System.out.println("Update r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         ARRAY_STORAGE.update(r4);
-        System.out.println("Update r4: " + ARRAY_STORAGE.get(r4.getUuid()));
+        System.out.println("Update r4: " + ARRAY_STORAGE.get(r2.getUuid()));
 
         printAll();
         ARRAY_STORAGE.delete(r1.getUuid());
