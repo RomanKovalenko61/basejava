@@ -5,20 +5,23 @@ import model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10_000;
+    protected static final int STORAGE_LIMIT = 7;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void save(Resume resume) {
         if (size < STORAGE_LIMIT) {
             if (size == 0) {
@@ -37,15 +40,25 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index >= -1) {
-            deleteFromArray(index);
+        if (index >= 0) {
+            if (index == 0 && size == 1) {
+                storage[0] = null;
+                size = 0;
+            } else if (index == size - 1 && !(size == 0)) {
+                storage[index] = null;
+                size--;
+            } else {
+                deleteFromArray(index);
+            }
         } else {
             System.out.println("Resume is not found for delete");
         }
     }
 
+    @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index <= -1) {
@@ -55,6 +68,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
+    @Override
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index > -1) {

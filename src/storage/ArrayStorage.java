@@ -11,6 +11,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
+                //System.out.println("Get index --- " + i);
                 return i;
             }
         }
@@ -25,9 +26,8 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void deleteFromArray(int index) {
-        storage[index] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
     }
-
 }

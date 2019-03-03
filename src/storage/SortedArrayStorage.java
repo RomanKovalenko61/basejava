@@ -16,10 +16,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected void saveToArray(int index, Resume resume) {
         int tempIndex = ~index;
-        if (~index < size) {
-            System.arraycopy(storage, tempIndex, storage, tempIndex + 1, size + 1);
+        //System.out.println("tempIndex ---  " + tempIndex);
+        if (tempIndex < size) {
+            System.arraycopy(storage, tempIndex, storage, tempIndex + 1, size - tempIndex);
             storage[tempIndex] = resume;
-            System.arraycopy(storage, tempIndex + 1, storage, tempIndex + 1, size + 1);
             size++;
         } else {
             storage[tempIndex] = resume;
@@ -29,7 +29,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void deleteFromArray(int index) {
-        System.arraycopy(storage, index + 1, storage, index, size - 1);
+        //System.out.println("Index for delete --- " + index);
+        System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         size--;
     }
 }
