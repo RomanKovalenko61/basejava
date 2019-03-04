@@ -44,12 +44,8 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            if (index == 0 && size == 1) {
-                storage[0] = null;
-                size = 0;
-            } else if (index == size - 1 && !(size == 0)) {
-                storage[index] = null;
-                size--;
+            if (index == size - 1) {
+                deleteLastResume();
             } else {
                 deleteFromArray(index);
             }
@@ -88,7 +84,7 @@ public abstract class AbstractArrayStorage implements Storage {
         size++;
     }
 
-    protected void deleteResume() {
+    protected void deleteLastResume() {
         storage[size - 1] = null;
         size--;
     }
