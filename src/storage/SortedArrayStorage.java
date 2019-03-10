@@ -18,15 +18,15 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         int tempIndex = -(index + 1);
         if (tempIndex < size) {
             System.arraycopy(storage, tempIndex, storage, tempIndex + 1, size - tempIndex);
-            saveResume(tempIndex, resume);
-        } else {
-            saveResume(tempIndex, resume);
         }
+        storage[tempIndex] = resume;
+        size++;
     }
 
     @Override
     protected void deleteFromArray(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
-        deleteLastResume();
+        storage[size - 1] = null;
+        size--;
     }
 }
