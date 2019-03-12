@@ -1,5 +1,8 @@
 package storage;
 
+import exception.ExistStorageException;
+import exception.NotExistStorageException;
+import exception.StorageException;
 import model.Resume;
 
 import java.util.Arrays;
@@ -29,10 +32,10 @@ public abstract class AbstractArrayStorage implements Storage {
                 saveToArray(index, resume);
                 size++;
             } else {
-                System.out.println("Resume is exists");
+                throw new ExistStorageException(resume.getUuid());
             }
         } else {
-            System.out.println("Attention!!! Storage is overflow");
+            throw new StorageException("Attention!!! Storage is overflow", resume.getUuid());
         }
     }
 
@@ -44,7 +47,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("Resume is not found for delete");
+            throw new NotExistStorageException(uuid);
         }
     }
 
@@ -52,8 +55,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index <= -1) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -64,7 +66,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index > -1) {
             storage[index] = resume;
         } else {
-            System.out.println("Resume is not found for update");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
