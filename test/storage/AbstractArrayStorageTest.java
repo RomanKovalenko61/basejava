@@ -1,8 +1,15 @@
 package storage;
 
 import exception.NotExistStorageException;
+import exception.StorageException;
 import model.Resume;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.lang.reflect.Field;
+
+import static storage.AbstractArrayStorage.STORAGE_LIMIT;
 
 public class AbstractArrayStorageTest {
 
@@ -40,12 +47,14 @@ public class AbstractArrayStorageTest {
         storage.save(new Resume(UUID_1));
         Assert.assertEquals(1, storage.size());
     }
-    @Test
-    @Ignore
-    public void saveWithOverflow() {
+
+    @Test(expected = StorageException.class)
+    public void saveWithOverflow() throws IllegalAccessException {
         storage.clear();
+        Field field = storage.getClass().getSuperclass().getDeclaredFields()[2];
+        field.setAccessible(true);
+        field.setInt(storage, STORAGE_LIMIT);
         storage.save(new Resume(UUID_1));
-        Assert.assertEquals(1, storage.size());
     }
 
     @Test(expected = NotExistStorageException.class)
