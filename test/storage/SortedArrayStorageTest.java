@@ -1,7 +1,12 @@
 package storage;
 
-import static org.junit.Assert.*;
+public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
-public class SortedArrayStorageTest {
+    public SortedArrayStorageTest() {
+        super(new SortedArrayStorage());
+    }
 
+    public static void main(String[] args) {
+        new ArrayStorageTest();
+    }
 }

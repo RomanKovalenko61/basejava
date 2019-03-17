@@ -1,6 +1,7 @@
 import model.Resume;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException {
@@ -12,6 +13,6 @@ public class MainReflection {
         field.set(r, "new_uuid");
         // TODO : invoke r.toString via reflection
         System.out.println(r);
-        System.out.println(field.toString());
+        Method[] method = r.getClass().getMethods();
     }
 }
