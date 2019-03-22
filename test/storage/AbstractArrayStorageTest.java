@@ -24,7 +24,7 @@ public class AbstractArrayStorageTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         storage.clear();
         storage.save(UUID_1);
         storage.save(UUID_2);
@@ -55,7 +55,7 @@ public class AbstractArrayStorageTest {
     }
 
     @Test(expected = StorageException.class)
-    public void saveWithOverflow() throws IllegalAccessException {
+    public void saveWithOverflow() {
         storage.clear();
         try {
             for (int i = 0; i < STORAGE_LIMIT; i++) {
@@ -85,7 +85,7 @@ public class AbstractArrayStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void getNotExist() throws Exception {
+    public void getNotExist() {
         storage.get("dummy");
     }
 
