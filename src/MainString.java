@@ -13,5 +13,15 @@ public class MainString {
         String str3 = "c";
         String str2 = ("ab" + str3).intern();
         System.out.println(str1 == str2);
+
+        Object o = str1;
+        Object o1 = 4;
+        Object o2 = "true";
+
+        System.out.println(o);
+        System.out.println(o1);
+        System.out.println(o2);
+
+        boolean b = Boolean.parseBoolean((String) o2);
     }
 }

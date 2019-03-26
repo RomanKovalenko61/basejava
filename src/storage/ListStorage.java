@@ -1,43 +1,41 @@
 package storage;
 
-import exception.ExistStorageException;
-import exception.NotExistStorageException;
 import model.Resume;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    protected static final List<Resume> storage = new ArrayList<>();
+    protected static final List<Resume> storage = new LinkedList<>();
 
     @Override
     public void clear() {
         storage.clear();
     }
 
-    @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index <= -1) {
-            storage.add(resume);
-        } else {
-            throw new ExistStorageException(resume.getUuid());
-        }
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index > -1) {
-            return storage.get(index);
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
-    }
-
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         return storage.indexOf(new Resume(uuid));
+    }
+
+    @Override
+    protected void saveToStorage(int index, Resume resume) {
+        storage.add(resume);
+    }
+
+    @Override
+    protected void deleteFromStorage(int index) {
+        storage.remove(index);
+    }
+
+    @Override
+    protected void updateToStorage(int index, Resume resume) {
+        storage.add(index, resume);
+    }
+
+    @Override
+    protected Resume getFromStorage(int index) {
+        return storage.get(index);
     }
 
     @Override
@@ -49,25 +47,5 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
-    }
-
-    @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index > -1) {
-            storage.remove(index);
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
-    }
-
-    @Override
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index > -1) {
-            storage.add(index, r);
-        } else {
-            throw new NotExistStorageException(r.getUuid());
-        }
     }
 }
