@@ -43,7 +43,7 @@ public class AbstractArrayStorageTest {
     public void save() {
         storage.save(DUMMY);
         Assert.assertEquals(4, storage.size());
-        Assert.assertSame(DUMMY, storage.get("dummy"));
+        Assert.assertEquals(DUMMY, storage.get("dummy"));
     }
 
     @Test(expected = ExistStorageException.class)

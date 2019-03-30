@@ -2,6 +2,7 @@ package storage;
 
 import model.Resume;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storage.get(new Resume(uuid));
+        return storage.get(uuid);
     }
 
     @Override
@@ -27,17 +28,17 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void deleteFromStorage(Object searchKey) {
-        storage.remove(searchKey);
+        storage.remove(((Resume) searchKey).getUuid());
     }
 
     @Override
     protected void updateToStorage(Object searchKey, Resume resume) {
-        storage.put(((Resume) searchKey).getUuid(), resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected Resume getFromStorage(Object searchKey) {
-        return storage.get(searchKey);
+        return storage.get(((Resume) searchKey).getUuid());
     }
 
     @Override
@@ -50,6 +51,7 @@ public class MapStorage extends AbstractStorage {
         Collection resumes = storage.values();
         Resume[] allResumes = new Resume[storage.size()];
         resumes.toArray(allResumes);
+        Arrays.sort(allResumes);
         return allResumes;
     }
 
