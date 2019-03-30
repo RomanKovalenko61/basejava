@@ -2,40 +2,50 @@ package storage;
 
 import model.Resume;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    protected static final List<Resume> storage = new LinkedList<>();
+    protected static final List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
         storage.clear();
     }
 
-    protected int getIndex(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+    protected Integer getSearchKey(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
-    protected void saveToStorage(int index, Resume resume) {
+    protected boolean resumeIsExist(Object searchKey) {
+        return (Integer) searchKey >= 0;
+    }
+
+    @Override
+    protected void saveToStorage(Object searchKey, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    protected void deleteFromStorage(int index) {
-        storage.remove(index);
+    protected void deleteFromStorage(Object searchKey) {
+        storage.remove(((Integer) searchKey).intValue());
     }
 
     @Override
-    protected void updateToStorage(int index, Resume resume) {
-        storage.add(index, resume);
+    protected void updateToStorage(Object searchKey, Resume resume) {
+        storage.set((Integer) searchKey, resume);
     }
 
     @Override
-    protected Resume getFromStorage(int index) {
-        return storage.get(index);
+    protected Resume getFromStorage(Object searchKey) {
+        return storage.get((Integer) searchKey);
     }
 
     @Override
