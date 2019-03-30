@@ -1,6 +1,6 @@
 package storage;
 
-public class SortedArrayStorageTest extends AbstractArrayStorageTest {
+public class SortedArrayStorageTest extends AbstractOverflowArraysTest {
 
     public SortedArrayStorageTest() {
         super(new SortedArrayStorage());
