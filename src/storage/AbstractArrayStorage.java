@@ -11,6 +11,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    protected abstract void saveToArray(int index, Resume resume);
+
     protected abstract void deleteFromArray(int index);
 
     @Override
@@ -60,6 +62,4 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
-
-    protected abstract void saveToArray(int index, Resume resume);
 }
