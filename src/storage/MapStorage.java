@@ -2,7 +2,10 @@ package storage;
 
 import model.Resume;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
 
@@ -44,10 +47,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<>(storage.values());
-        Collections.sort(list);
-        return list;
+    public Resume[] getAll() {
+        Collection resumes = storage.values();
+        Resume[] allResumes = new Resume[storage.size()];
+        resumes.toArray(allResumes);
+        Arrays.sort(allResumes);
+        return allResumes;
     }
 
     @Override
