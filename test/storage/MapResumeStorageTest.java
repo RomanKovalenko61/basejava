@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 public class MapResumeStorageTest extends AbstractArrayStorageTest {
 
-    protected MapResumeStorageTest() {
+    public MapResumeStorageTest() {
         super(new MapResumeStorage());
     }
 }
