@@ -93,6 +93,9 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void getAllSorted() {
+        RESUMES.add(UUID_1);
+        RESUMES.add(UUID_2);
+        RESUMES.add(UUID_3);
         List<Resume> allResume = storage.getAllSorted();
         Assert.assertEquals(allResume, RESUMES);
     }
