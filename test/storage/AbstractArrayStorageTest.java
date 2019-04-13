@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.Arrays;
@@ -15,14 +15,14 @@ import java.util.List;
 
 public class AbstractArrayStorageTest {
 
-    protected Storage storage;
-    protected static final Resume UUID_1 = new Resume("uuid1", "Chimax One");
-    protected static final Resume UUID_2 = new Resume("uuid2", "Tanya Three");
-    protected static final Resume UUID_3 = new Resume("uuid3", "Irina Two");
-    protected static final Resume DUMMY = new Resume("dummy", "Dummy");
-    protected static final List<Resume> RESUMES = Arrays.asList(UUID_1, UUID_2, UUID_3);
+    Storage storage;
+    private static final Resume UUID_1 = new Resume("uuid1");
+    private static final Resume UUID_2 = new Resume("uuid2");
+    private static final Resume UUID_3 = new Resume("uuid3");
+    static final Resume DUMMY = new Resume("dummy");
+    private static List<Resume> RESUMES = Arrays.asList(UUID_1, UUID_2, UUID_3);
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -93,9 +93,6 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void getAllSorted() {
-        RESUMES.add(UUID_1);
-        RESUMES.add(UUID_2);
-        RESUMES.add(UUID_3);
         List<Resume> allResume = storage.getAllSorted();
         Assert.assertEquals(allResume, RESUMES);
     }
