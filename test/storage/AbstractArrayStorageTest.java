@@ -10,9 +10,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class AbstractArrayStorageTest {
 
     Storage storage;
@@ -94,6 +91,6 @@ public class AbstractArrayStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> allResume = storage.getAllSorted();
-        Assert.assertEquals(allResume, RESUMES);
+        Assert.assertEquals(RESUMES, allResume);
     }
 }
