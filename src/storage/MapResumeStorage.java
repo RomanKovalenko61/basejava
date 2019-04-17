@@ -6,10 +6,10 @@ import java.util.*;
 
 public class MapResumeStorage extends AbstractStorage {
 
-    protected static final Map<Resume, Resume> storage = new HashMap<>();
+    private static final Map<Resume, Resume> storage = new HashMap<>();
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Resume getSearchKey(String uuid) {
         return storage.get(new Resume(uuid));
     }
 
