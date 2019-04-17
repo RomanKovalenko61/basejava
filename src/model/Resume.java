@@ -1,5 +1,7 @@
 package model;
 
+import java.util.UUID;
+
 /**
  * Initial resume class
  */
@@ -10,13 +12,13 @@ public class Resume implements Comparable<Resume> {
 
     private String fullName;
 
-    public Resume(String uuid) {
-        this.uuid = uuid;
-        fullName = "No name";
+    public Resume(String fullName) {
+        this.uuid = UUID.randomUUID().toString();
+        this.fullName = fullName;
     }
 
     public Resume(String uuid, String fullName) {
-        this(uuid);
+        this.uuid = uuid;
         this.fullName = fullName;
     }
 
@@ -45,11 +47,8 @@ public class Resume implements Comparable<Resume> {
     }
 
     @Override
-    public int compareTo(Resume o) {
-        int result = fullName.compareTo(o.fullName);
-        if (result == 0) {
-            return uuid.compareTo(o.uuid);
-        }
-        return result;
+    public int compareTo(Resume resume) {
+        int result;
+        return (result = fullName.compareTo(resume.fullName)) == 0 ? uuid.compareTo(resume.uuid) : result;
     }
 }
