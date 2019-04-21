@@ -13,11 +13,10 @@ import java.util.List;
 public class AbstractArrayStorageTest {
 
     Storage storage;
-    private static final Resume UUID_1 = new Resume("uuid1");
-    private static final Resume UUID_2 = new Resume("uuid2");
-    private static final Resume UUID_3 = new Resume("uuid3");
-    static final Resume DUMMY = new Resume("dummy");
-    private static List<Resume> RESUMES = Arrays.asList(UUID_1, UUID_2, UUID_3);
+    private Resume UUID_1 = new Resume("uuid1","Alex");
+    private Resume UUID_2 = new Resume("uuid2","Boris");
+    private Resume UUID_3 = new Resume("uuid3","Tanya");
+    Resume DUMMY = new Resume("uuid4","dummy");
 
     AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -46,7 +45,7 @@ public class AbstractArrayStorageTest {
     public void save() {
         storage.save(DUMMY);
         Assert.assertEquals(4, storage.size());
-        Assert.assertEquals(DUMMY, storage.get("dummy"));
+        Assert.assertEquals(DUMMY, storage.get("uuid4"));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -63,7 +62,7 @@ public class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
-        storage.delete("dummy");
+        storage.delete("uuid4");
     }
 
     @Test
@@ -73,14 +72,14 @@ public class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
-        storage.get("dummy");
+        storage.get("uuid4");
     }
 
     @Test
     public void update() {
-        Resume r = new Resume("uuid2");
-        storage.update(r);
-        Assert.assertSame(r, storage.get("uuid2"));
+        UUID_2.setFullName("Boris Blade");
+        storage.update(UUID_2);
+        Assert.assertSame(UUID_2, storage.get("uuid2"));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -90,6 +89,7 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void getAllSorted() {
+        List<Resume> RESUMES = Arrays.asList(UUID_1, UUID_2, UUID_3);
         List<Resume> allResume = storage.getAllSorted();
         Assert.assertEquals(RESUMES, allResume);
     }
