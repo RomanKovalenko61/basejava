@@ -8,15 +8,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class AbstractArrayStorageTest {
 
     Storage storage;
-    private Resume UUID_1 = new Resume("uuid1","Alex");
-    private Resume UUID_2 = new Resume("uuid2","Boris");
-    private Resume UUID_3 = new Resume("uuid3","Tanya");
-    Resume DUMMY = new Resume("uuid4","dummy");
+    private Resume UUID_1 = new Resume("uuid1", "Alex");
+    private Resume UUID_2 = new Resume("uuid2", "Boris");
+    private Resume UUID_3 = new Resume("uuid3", "Tanya");
+    Resume DUMMY = new Resume("uuid4", "dummy");
 
     AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -90,6 +91,7 @@ public class AbstractArrayStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> RESUMES = Arrays.asList(UUID_1, UUID_2, UUID_3);
+        Collections.sort(RESUMES);
         List<Resume> allResume = storage.getAllSorted();
         Assert.assertEquals(RESUMES, allResume);
     }
