@@ -39,15 +39,13 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public void clear() {
-        storage.clear();
+    protected List<Resume> getList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> sortedList = new ArrayList<>(storage.values());
-        Collections.sort(sortedList);
-        return sortedList;
+    public void clear() {
+        storage.clear();
     }
 
     @Override

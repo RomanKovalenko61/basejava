@@ -4,7 +4,6 @@ import exception.StorageException;
 import model.Resume;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -61,10 +60,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-//        https://stackoverflow.com/a/53940728
-        List<Resume> listSorted = Arrays.asList(storage).subList(0, size);
-        Collections.sort(listSorted);
-        return listSorted;
+    public List<Resume> getList() {
+        return Arrays.asList(storage).subList(0, size);
     }
 }
