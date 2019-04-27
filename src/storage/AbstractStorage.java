@@ -21,7 +21,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume getFromStorage(Object searchKey);
 
-    protected abstract List<Resume> getList();
+    protected abstract List<Resume> getCopyStorage();
 
     @Override
     public void save(Resume resume) {
@@ -49,7 +49,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> listSorted = getList();
+        List<Resume> listSorted = getCopyStorage();
         Collections.sort(listSorted);
         return listSorted;
     }
