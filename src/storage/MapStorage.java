@@ -4,7 +4,7 @@ import model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage<String> {
 
     private final Map<String, Resume> storage = new HashMap<>();
 
@@ -14,27 +14,27 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeIsExist(Object searchKey) {
+    protected boolean resumeIsExist(String searchKey) {
         return storage.containsKey(searchKey);
     }
 
     @Override
-    protected void saveToStorage(Object searchKey, Resume resume) {
-        storage.put((String) searchKey, resume);
+    protected void saveToStorage(String searchKey, Resume resume) {
+        storage.put(searchKey, resume);
     }
 
     @Override
-    protected void deleteFromStorage(Object searchKey) {
+    protected void deleteFromStorage(String searchKey) {
         storage.remove(searchKey);
     }
 
     @Override
-    protected void updateToStorage(Object searchKey, Resume resume) {
-        storage.put((String) searchKey, resume);
+    protected void updateToStorage(String searchKey, Resume resume) {
+        storage.put(searchKey, resume);
     }
 
     @Override
-    protected Resume getFromStorage(Object searchKey) {
+    protected Resume getFromStorage(String searchKey) {
         return storage.get(searchKey);
     }
 

@@ -6,7 +6,7 @@ import model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     static final int STORAGE_LIMIT = 10_000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -28,9 +28,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveToStorage(Object searchKey, Resume resume) {
+    protected void saveToStorage(Integer searchKey, Resume resume) {
         if (size < STORAGE_LIMIT) {
-            saveToArray((Integer) searchKey, resume);
+            saveToArray(searchKey, resume);
             size++;
         } else {
             throw new StorageException("Attention!!! Storage is overflow", resume.getUuid());
@@ -38,25 +38,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteFromStorage(Object searchKey) {
-        deleteFromArray((Integer) searchKey);
+    protected void deleteFromStorage(Integer searchKey) {
+        deleteFromArray(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected boolean resumeIsExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean resumeIsExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
-    protected void updateToStorage(Object searchKey, Resume resume) {
-        storage[(Integer) searchKey] = resume;
+    protected void updateToStorage(Integer searchKey, Resume resume) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    protected Resume getFromStorage(Object searchKey) {
-        return storage[(Integer) searchKey];
+    protected Resume getFromStorage(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
