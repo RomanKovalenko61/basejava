@@ -17,7 +17,7 @@ public class Resume implements Comparable<Resume> {
 
     private Map<ContactType, TextSectionType> contactTypeMap = new HashMap<>();
 
-    private Map<SectionType, Object> sectionTypeMap = new HashMap<>();
+    private Map<SectionType, Printable> sectionTypeMap = new HashMap<>();
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -36,6 +36,14 @@ public class Resume implements Comparable<Resume> {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void addContactTypeMap(ContactType key, TextSectionType value) {
+        contactTypeMap.put(key, value);
+    }
+
+    public void addSectionTypeMap(SectionType key, Printable value) {
+        sectionTypeMap.put(key, value);
     }
 
     @Override
@@ -68,42 +76,26 @@ public class Resume implements Comparable<Resume> {
         return result == 0 ? uuid.compareTo(resume.uuid) : result;
     }
 
-    public void printResumeContacts() {
+    public void printThisResume() {
+        System.out.println(this);
+        printResumeContacts();
+        printResumeSections();
+    }
+
+    private void printResumeContacts() {
         for (ContactType type : ContactType.values()) {
-            TextSectionType temp = contactTypeMap.get(type);
-            if (!temp.getDescription().equals("")) {
-                System.out.println(temp.getText());
+            if (contactTypeMap.containsKey(type)) {
+                Printable temp = contactTypeMap.get(type);
+                temp.print();
             }
         }
     }
 
-    public void printResumeSections() {
+    private void printResumeSections() {
         for (SectionType type : SectionType.values()) {
-            switch (type) {
-                case PERSONAL:
-                case OBJECTIVE:
-                    TextSectionType textObject = (TextSectionType) sectionTypeMap.get(type);
-                    if (!textObject.getDescription().equals("")) {
-                        System.out.println(textObject.getText());
-                    }
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATIONS:
-                    ListSectionType listObject = (ListSectionType) sectionTypeMap.get(type);
-                    System.out.println(listObject.getTitle());
-                    for (String element : listObject.getList()) {
-                        System.out.println(element);
-                    }
-                    break;
-                case EXPERIENCE:
-                case EDUCATION:
-                    TableSectionType tableObject = (TableSectionType) sectionTypeMap.get(type);
-                    System.out.println(tableObject.getTitle());
-                    for (TableSectionType.Table element : tableObject.getList()) {
-                        System.out.println(element.getPlace());
-                        System.out.println(element.getPeriod() + ": " + element.getDescription());
-                    }
-                    break;
+            if (sectionTypeMap.containsKey(type)) {
+                Printable temp = sectionTypeMap.get(type);
+                temp.print();
             }
         }
     }

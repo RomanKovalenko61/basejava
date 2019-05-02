@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListSectionType {
+public class ListSectionType implements Printable {
     private SectionType title;
 
     private List<String> list = new ArrayList<>();
@@ -31,20 +31,8 @@ public class ListSectionType {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "ListSectionType{" +
-                "title=" + title +
-                ", list=" + list +
-                '}';
-    }
-
     public SectionType getTitle() {
         return title;
-    }
-
-    public void setTitle(SectionType title) {
-        this.title = title;
     }
 
     public List<String> getList() {
@@ -55,15 +43,11 @@ public class ListSectionType {
         list.add(str);
     }
 
-    public void editString(int index, String str) {
-        list.set(index, str);
-    }
-
-    public String getString(int index) {
-        return list.get(index);
-    }
-
-    public void removeString(int index) {
-        list.remove(index);
+    @Override
+    public void print() {
+        System.out.println(title.getTitle());
+        for (String str : list) {
+            System.out.println(str);
+        }
     }
 }

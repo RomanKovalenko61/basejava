@@ -1,28 +1,12 @@
 package model;
 
-public class TextSectionType {
+public class TextSectionType implements Printable {
     private String title;
 
     private String description;
 
     public TextSectionType(String title, String description) {
         this.title = title;
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -33,7 +17,7 @@ public class TextSectionType {
 
         TextSectionType that = (TextSectionType) o;
 
-        if (title != that.title) return false;
+        if (!title.equals(that.title)) return false;
         return description.equals(that.description);
 
     }
@@ -45,7 +29,8 @@ public class TextSectionType {
         return result;
     }
 
-    public String getText() {
-        return (title + ": " + description);
+    @Override
+    public void print() {
+        System.out.println(title + ": " + description);
     }
 }
