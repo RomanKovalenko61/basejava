@@ -1,6 +1,6 @@
 package model;
 
-public enum SectionType {
+public enum SectionType implements Enumeratiable {
     PERSONAL("Личные качества"),
     OBJECTIVE("Позиция"),
     ACHIEVEMENT("Достижения"),

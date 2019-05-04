@@ -1,6 +1,6 @@
 package model;
 
-public enum ContactType {
+public enum ContactType implements Enumeratiable {
     CITY("Город"),
     PHONE("Телефон"),
     EMAIL("E-mail"),

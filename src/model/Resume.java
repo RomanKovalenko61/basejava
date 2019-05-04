@@ -15,7 +15,7 @@ public class Resume implements Comparable<Resume> {
 
     private String fullName;
 
-    private Map<ContactType, TextSectionType> contactTypeMap = new HashMap<>();
+    private Map<ContactType, Printable> contactTypeMap = new HashMap<>();
 
     private Map<SectionType, Printable> sectionTypeMap = new HashMap<>();
 
@@ -42,7 +42,15 @@ public class Resume implements Comparable<Resume> {
         contactTypeMap.put(key, value);
     }
 
+    public void updateContactTypeMap(ContactType key, TextSectionType value) {
+        contactTypeMap.put(key, value);
+    }
+
     public void addSectionTypeMap(SectionType key, Printable value) {
+        sectionTypeMap.put(key, value);
+    }
+
+    public void updateSectionTypeMap(SectionType key, Printable value) {
         sectionTypeMap.put(key, value);
     }
 
@@ -78,23 +86,14 @@ public class Resume implements Comparable<Resume> {
 
     public void printThisResume() {
         System.out.println(this);
-        printResumeContacts();
-        printResumeSections();
+        printSection(contactTypeMap, ContactType.values());
+        printSection(sectionTypeMap, SectionType.values());
     }
 
-    private void printResumeContacts() {
-        for (ContactType type : ContactType.values()) {
-            if (contactTypeMap.containsKey(type)) {
-                Printable temp = contactTypeMap.get(type);
-                temp.print();
-            }
-        }
-    }
-
-    private void printResumeSections() {
-        for (SectionType type : SectionType.values()) {
-            if (sectionTypeMap.containsKey(type)) {
-                Printable temp = sectionTypeMap.get(type);
+    private void printSection(Map<? extends Enumeratiable, Printable> map, Enumeratiable[] enums) {
+        for (Enumeratiable type : enums) {
+            if (map.containsKey(type)) {
+                Printable temp = map.get(type);
                 temp.print();
             }
         }
