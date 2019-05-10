@@ -17,7 +17,7 @@ public class AbstractStorageTest {
     private final String UUID_1 = "uuid1";
     private final String UUID_2 = "uuid2";
     private final String UUID_3 = "uuid3";
-    private final String UUID_4 = "uuid5";
+    private final String UUID_4 = "uuid4";
     private Resume RESUME_1 = new Resume(UUID_1, "Alex");
     private Resume RESUME_2 = new Resume(UUID_2, "Boris");
     private Resume RESUME_3 = new Resume(UUID_3, "Tanya");

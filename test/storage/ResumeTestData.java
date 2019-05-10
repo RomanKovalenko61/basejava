@@ -4,77 +4,81 @@ import model.*;
 
 public class ResumeTestData {
 
+    private static void printResume(Resume resume) {
+        System.out.println("Resume uuid : " + resume.getUuid());
+        System.out.println("Resume fullName : " + resume.getFullName());
+
+        ContactType[] contactTypes = ContactType.values();
+        for (ContactType type : contactTypes) {
+            System.out.println(type.getTitle() + ": " + resume.getContactTypeMapValue(type));
+        }
+
+        SectionType[] sectionTypes = SectionType.values();
+        for (SectionType type : sectionTypes) {
+            System.out.println(type.getTitle() + "\n" + resume.getSectionTypeMapValue(type));
+        }
+    }
+
     public static void main(String[] args) {
         Resume resume = new Resume("uuid0", "Roman");
 
         String city = "Rostov-on-Don";
-        resume.addContactTypeMap(ContactType.CITY,
-                new TextSectionType(ContactType.CITY.getTitle(), city));
+        resume.addContactTypeMap(ContactType.CITY, city);
 
         String phone = "8-800-535-35-35";
-        resume.addContactTypeMap(ContactType.PHONE,
-                new TextSectionType(ContactType.PHONE.getTitle(), phone));
+        resume.addContactTypeMap(ContactType.PHONE, phone);
 
         String email = "astek14@mail.ru";
-        resume.addContactTypeMap(ContactType.EMAIL,
-                new TextSectionType(ContactType.EMAIL.getTitle(), email));
+        resume.addContactTypeMap(ContactType.EMAIL, email);
 
         String skype = "evil_romashka";
-        resume.addContactTypeMap(ContactType.SKYPE,
-                new TextSectionType(ContactType.SKYPE.getTitle(), skype));
+        resume.addContactTypeMap(ContactType.SKYPE, skype);
 
         String habr = "astek14";
-        resume.addContactTypeMap(ContactType.PROFILE_HABR,
-                new TextSectionType(ContactType.PROFILE_HABR.getTitle(), habr));
+        resume.addContactTypeMap(ContactType.PROFILE_HABR, habr);
 
         String stack = "astek14";
-        resume.addContactTypeMap(ContactType.PROFILE_STACK,
-                new TextSectionType(ContactType.PROFILE_STACK.getTitle(), stack));
+        resume.addContactTypeMap(ContactType.PROFILE_STACK, stack);
 
         String git = "RomanKovalenko61";
-        resume.addContactTypeMap(ContactType.ACCOUNT_GIT,
-                new TextSectionType(ContactType.ACCOUNT_GIT.getTitle(), git));
+        resume.addContactTypeMap(ContactType.ACCOUNT_GIT, git);
 
         String objective = "trainee";
-        resume.addSectionTypeMap(SectionType.OBJECTIVE,
-                new TextSectionType(SectionType.OBJECTIVE.getTitle(), objective));
+        resume.addSectionTypeMap(SectionType.OBJECTIVE, objective);
 
         String personal = "active, friendly";
-        resume.addSectionTypeMap(SectionType.PERSONAL,
-                new TextSectionType(SectionType.PERSONAL.getTitle(), personal));
+        resume.addSectionTypeMap(SectionType.PERSONAL, personal);
 
-        ListSectionType achievement = new ListSectionType(SectionType.ACHIEVEMENT);
-        achievement.addString("Начал изучать Javarush");
-        achievement.addString("Поступил на крутую стажировку basejava");
-        resume.addSectionTypeMap(achievement.getTitle(), achievement);
+        ListSectionType achievement = new ListSectionType();
+        achievement.addNote("Начал изучать Javarush");
+        achievement.addNote("Поступил на крутую стажировку basejava");
+        resume.addSectionTypeMap(SectionType.ACHIEVEMENT, achievement);
 
-        ListSectionType qualifications = new ListSectionType(SectionType.QUALIFICATIONS);
-        qualifications.addString("Java core");
-        qualifications.addString("Java Collections Framework");
-        resume.addSectionTypeMap(achievement.getTitle(), qualifications);
+        ListSectionType qualifications = new ListSectionType();
+        qualifications.addNote("Java core");
+        qualifications.addNote("Java Collections Framework");
+        resume.addSectionTypeMap(SectionType.QUALIFICATIONS, qualifications);
 
-        TableSectionType education = new TableSectionType(SectionType.EDUCATION);
-        education.addString("DSTU", "2007-2010", "Mehatronics");
-        resume.addSectionTypeMap(education.getTitle(), education);
+        NoteAboutExperience education = new NoteAboutExperience("DSTU", "2007-2010", "Mehatronics");
+        resume.addSectionTypeMap(SectionType.EDUCATION, education);
 
-        TableSectionType experience = new TableSectionType(SectionType.EXPERIENCE);
-        experience.addString("Javaops", "2019-2019", "trainee");
-        resume.addSectionTypeMap(experience.getTitle(), experience);
+        NoteAboutExperience experience = new NoteAboutExperience("Javaops", "2019-2019", "trainee");
+        resume.addSectionTypeMap(SectionType.EXPERIENCE, experience);
 
-        resume.printThisResume();
-        System.out.println(" ");
-        System.out.println("______________________________________");
-        System.out.println("  ");
+        printResume(resume);
+
+        System.out.println("_____________________________________________");
+        System.out.println("Print update resume ");
+        System.out.println("_____________________________________________");
 
         phone = "8-950-859-82-15";
-        resume.updateContactTypeMap(ContactType.PHONE,
-                new TextSectionType(ContactType.PHONE.getTitle(), phone));
+        resume.updateContactTypeMap(ContactType.PHONE, phone);
 
 
-        qualifications.addString("JUnit");
-        qualifications.addString("Russian : fluently, English : with dictionary");
-        resume.updateSectionTypeMap(achievement.getTitle(), qualifications);
+        qualifications.addNote("JUnit");
+        qualifications.addNote("Russian : fluently, English : with dictionary");
+        resume.updateSectionTypeMap(SectionType.PERSONAL, qualifications);
 
-        resume.printThisResume();
+        printResume(resume);
     }
 }
