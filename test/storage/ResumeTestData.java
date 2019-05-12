@@ -43,27 +43,35 @@ public class ResumeTestData {
         String git = "RomanKovalenko61";
         resume.addContactTypeMap(ContactType.ACCOUNT_GIT, git);
 
-        String objective = "trainee";
-        resume.addSectionTypeMap(SectionType.OBJECTIVE, objective);
-
-        String personal = "active, friendly";
+        TextSection personal = new TextSection("active, friendly");
         resume.addSectionTypeMap(SectionType.PERSONAL, personal);
 
-        ListSectionType achievement = new ListSectionType();
-        achievement.addNote("Начал изучать Javarush");
-        achievement.addNote("Поступил на крутую стажировку basejava");
+        TextSection objective = new TextSection("trainee");
+        resume.addSectionTypeMap(SectionType.OBJECTIVE, objective);
+
+        ListSection achievement = new ListSection();
+        achievement.addNoteToList("Начал изучать Javarush");
+        achievement.addNoteToList("Поступил на крутую стажировку basejava");
         resume.addSectionTypeMap(SectionType.ACHIEVEMENT, achievement);
 
-        ListSectionType qualifications = new ListSectionType();
-        qualifications.addNote("Java core");
-        qualifications.addNote("Java Collections Framework");
+        ListSection qualifications = new ListSection();
+        qualifications.addNoteToList("Java core");
+        qualifications.addNoteToList("Java Collections Framework");
         resume.addSectionTypeMap(SectionType.QUALIFICATIONS, qualifications);
 
-        NoteAboutExperience education = new NoteAboutExperience("DSTU", "2007-2010", "Mehatronics");
-        resume.addSectionTypeMap(SectionType.EDUCATION, education);
+        Position education = new Position("DSTU", "Mehatronics");
+        education.setStartDate(2007, 6, 1);
+        education.setEndDatend(2010, 6, 1);
+        ListPosition educations = new ListPosition();
+        educations.addNoteToListPosition(education);
+        resume.addSectionTypeMap(SectionType.EDUCATION, educations);
 
-        NoteAboutExperience experience = new NoteAboutExperience("Javaops", "2019-2019", "trainee");
-        resume.addSectionTypeMap(SectionType.EXPERIENCE, experience);
+        Position experience = new Position("Javaops", "trainee");
+        experience.setStartDate(2019, 2, 21);
+        experience.setEndDatend(2019, 8, 21);
+        ListPosition experiences = new ListPosition();
+        experiences.addNoteToListPosition(experience);
+        resume.addSectionTypeMap(SectionType.EXPERIENCE, experiences);
 
         printResume(resume);
 
@@ -75,8 +83,8 @@ public class ResumeTestData {
         resume.updateContactTypeMap(ContactType.PHONE, phone);
 
 
-        qualifications.addNote("JUnit");
-        qualifications.addNote("Russian : fluently, English : with dictionary");
+        qualifications.addNoteToList("JUnit");
+        qualifications.addNoteToList("Russian : fluently, English : with dictionary");
         resume.updateSectionTypeMap(SectionType.PERSONAL, qualifications);
 
         printResume(resume);
