@@ -49,27 +49,27 @@ public class ResumeTestData {
         TextSection objective = new TextSection("trainee");
         resume.addSectionTypeMap(SectionType.OBJECTIVE, objective);
 
-        ListSection achievement = new ListSection();
+        BulletListSection achievement = new BulletListSection();
         achievement.addNoteToList("Начал изучать Javarush");
         achievement.addNoteToList("Поступил на крутую стажировку basejava");
         resume.addSectionTypeMap(SectionType.ACHIEVEMENT, achievement);
 
-        ListSection qualifications = new ListSection();
+        BulletListSection qualifications = new BulletListSection();
         qualifications.addNoteToList("Java core");
         qualifications.addNoteToList("Java Collections Framework");
         resume.addSectionTypeMap(SectionType.QUALIFICATIONS, qualifications);
 
-        Position education = new Position("DSTU", "Mehatronics");
+        Position education = new Position("DSTU", "<a>link<a>", "Mehatronics");
         education.setStartDate(2007, 6, 1);
         education.setEndDatend(2010, 6, 1);
-        ListPosition educations = new ListPosition();
+        PositionSection educations = new PositionSection();
         educations.addNoteToListPosition(education);
         resume.addSectionTypeMap(SectionType.EDUCATION, educations);
 
-        Position experience = new Position("Javaops", "trainee");
+        Position experience = new Position("Javaops", "<a>link<a>", "trainee");
         experience.setStartDate(2019, 2, 21);
         experience.setEndDatend(2019, 8, 21);
-        ListPosition experiences = new ListPosition();
+        PositionSection experiences = new PositionSection();
         experiences.addNoteToListPosition(experience);
         resume.addSectionTypeMap(SectionType.EXPERIENCE, experiences);
 

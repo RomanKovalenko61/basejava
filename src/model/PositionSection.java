@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListPosition {
+public class PositionSection {
 
     private List<Position> listPosition = new ArrayList<>();
 
@@ -20,7 +20,7 @@ public class ListPosition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ListPosition that = (ListPosition) o;
+        PositionSection that = (PositionSection) o;
 
         return listPosition != null ? listPosition.equals(that.listPosition) : that.listPosition == null;
 

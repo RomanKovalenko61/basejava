@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Position {
 
-    private String place;
+    private Link place;
 
     private LocalDate startDate;
 
@@ -12,13 +12,9 @@ public class Position {
 
     private String description;
 
-    public Position(String place, String description) {
-        this.place = place;
+    public Position(String title, String url, String description) {
+        this.place = new Link(title, url);
         this.description = description;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
     }
 
     public void setDescription(String description) {
@@ -40,18 +36,18 @@ public class Position {
 
         Position position = (Position) o;
 
-        if (place != null ? !place.equals(position.place) : position.place != null) return false;
-        if (startDate != null ? !startDate.equals(position.startDate) : position.startDate != null) return false;
-        if (endDate != null ? !endDate.equals(position.endDate) : position.endDate != null) return false;
+        if (!place.equals(position.place)) return false;
+        if (!startDate.equals(position.startDate)) return false;
+        if (!endDate.equals(position.endDate)) return false;
         return description != null ? description.equals(position.description) : position.description == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = place != null ? place.hashCode() : 0;
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        int result = place.hashCode();
+        result = 31 * result + startDate.hashCode();
+        result = 31 * result + endDate.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
