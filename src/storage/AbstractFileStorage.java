@@ -3,8 +3,7 @@ package storage;
 import exception.StorageException;
 import model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,9 +44,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     protected void deleteFromStorage(File file) {
-
+        file.delete();
     }
 
     @Override
@@ -61,6 +61,16 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume getFromStorage(File file) {
+        try(FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)
+        ) {
+            return (Resume) ois.readObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -76,6 +86,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return 0; // TODO: how much files in directory
+        return 0; // TODO: how much files in directory https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java)
     }
 }
