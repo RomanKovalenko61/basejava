@@ -1,32 +1,21 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Position {
 
     private Link place;
 
-    private LocalDate startDate;
+    private List<NotePosition> listNotePosition = new ArrayList<>();
 
-    private LocalDate endDate;
-
-    private String description;
-
-    public Position(String title, String url, String description) {
+    public Position(String title, String url) {
         this.place = new Link(title, url);
-        this.description = description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setStartDate(int year, int month, int day) {
-        startDate = LocalDate.of(year, month, day);
-    }
-
-    public void setEndDatend(int year, int month, int day) {
-        endDate = LocalDate.of(year, month, day);
+    public void addNoteToPosition(LocalDate startDate, LocalDate endDate, String description) {
+        listNotePosition.add(new NotePosition(startDate, endDate, description));
     }
 
     @Override
@@ -37,18 +26,14 @@ public class Position {
         Position position = (Position) o;
 
         if (!place.equals(position.place)) return false;
-        if (!startDate.equals(position.startDate)) return false;
-        if (!endDate.equals(position.endDate)) return false;
-        return description != null ? description.equals(position.description) : position.description == null;
+        return listNotePosition.equals(position.listNotePosition);
 
     }
 
     @Override
     public int hashCode() {
         int result = place.hashCode();
-        result = 31 * result + startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + listNotePosition.hashCode();
         return result;
     }
 
@@ -57,11 +42,10 @@ public class Position {
         StringBuilder sb = new StringBuilder();
         sb.append(place);
         sb.append("\n");
-        sb.append(startDate);
-        sb.append(" - ");
-        sb.append(endDate);
-        sb.append("   ");
-        sb.append(description);
+        for (NotePosition note : listNotePosition) {
+            sb.append(note);
+            sb.append("\n");
+        }
         return sb.toString();
     }
 }

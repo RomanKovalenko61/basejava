@@ -2,6 +2,8 @@ package storage;
 
 import model.*;
 
+import java.time.LocalDate;
+
 public class ResumeTestData {
 
     private static void printResume(Resume resume) {
@@ -59,18 +61,22 @@ public class ResumeTestData {
         qualifications.addNoteToList("Java Collections Framework");
         resume.addSectionTypeMap(SectionType.QUALIFICATIONS, qualifications);
 
-        Position education = new Position("DSTU", "<a>link<a>", "Mehatronics");
-        education.setStartDate(2007, 6, 1);
-        education.setEndDatend(2010, 6, 1);
+        Position education = new Position("DSTU", "<a>link<a>");
+        education.addNoteToPosition(LocalDate.of(2007, 5, 1), LocalDate.of(2010, 5, 1), "Mehatronics");
         PositionSection educations = new PositionSection();
         educations.addNoteToListPosition(education);
         resume.addSectionTypeMap(SectionType.EDUCATION, educations);
 
-        Position experience = new Position("Javaops", "<a>link<a>", "trainee");
-        experience.setStartDate(2019, 2, 21);
-        experience.setEndDatend(2019, 8, 21);
+        Position experience = new Position("Javaops", "<a>link<a>");
+        experience.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee");
         PositionSection experiences = new PositionSection();
         experiences.addNoteToListPosition(experience);
+        resume.addSectionTypeMap(SectionType.EXPERIENCE, experiences);
+
+        Position experience1 = new Position("Javarush", "<a>link<a>");
+        experience1.addNoteToPosition(LocalDate.of(2018, 1, 21), LocalDate.of(2019, 8, 21), "trainee");
+        experience1.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee");
+        experiences.addNoteToListPosition(experience1);
         resume.addSectionTypeMap(SectionType.EXPERIENCE, experiences);
 
         printResume(resume);

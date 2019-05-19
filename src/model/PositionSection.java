@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PositionSection {
+public class PositionSection extends Section {
 
     private List<Position> listPosition = new ArrayList<>();
 

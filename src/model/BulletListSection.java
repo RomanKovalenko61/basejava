@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BulletListSection {
+public class BulletListSection extends Section {
 
     private List<String> listNote = new ArrayList<>();
 

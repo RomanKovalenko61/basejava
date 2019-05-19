@@ -1,6 +1,6 @@
 package model;
 
-public class TextSection {
+public class TextSection extends Section {
 
     private String text;
 

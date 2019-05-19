@@ -1,3 +1,5 @@
+package util;
+
 import model.SectionType;
 
 public class TestSingleton {
