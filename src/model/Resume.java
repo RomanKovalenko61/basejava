@@ -11,14 +11,15 @@ import java.util.UUID;
  */
 public class Resume implements Comparable<Resume>, Serializable {
 
+    private static final long serialVersionUID = 6588620525657485165L;
     // Unique identifier
     private final String uuid;
 
     private String fullName;
 
-    private transient Map<ContactType, String> contactTypeMap = new EnumMap<>(ContactType.class);
+    private Map<ContactType, String> contactTypeMap = new EnumMap<>(ContactType.class);
 
-    private transient Map<SectionType, Section> sectionTypeMap = new EnumMap<>(SectionType.class);
+    private Map<SectionType, Section> sectionTypeMap = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);

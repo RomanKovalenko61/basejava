@@ -100,7 +100,9 @@ public class ResumeTestData {
         printResume(resume);
 
         File dir = new File("D:\\DOCUM\\basejava\\directory");
-        dir.mkdir();
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
 
         FileStorage directory = new FileStorage(dir);
 
@@ -110,6 +112,8 @@ public class ResumeTestData {
         directory.saveToStorage(dir, resume3);
 
         System.out.println(directory.size());
+        Resume resume2Test = directory.getFromStorage(directory.getSearchKey(resume2.getUuid()));
+        System.out.println(resume2.equals(resume2Test));
         System.out.println("Clear directory");
         directory.clear();
         System.out.println(directory.size());
