@@ -2,6 +2,7 @@ package storage;
 
 import model.*;
 
+import java.io.File;
 import java.time.LocalDate;
 
 public class ResumeTestData {
@@ -23,6 +24,9 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
         Resume resume = new Resume("uuid0", "Roman");
+        Resume resume1 = new Resume("uuid1", "Alex");
+        Resume resume2 = new Resume("uuid2", "Victor");
+        Resume resume3 = new Resume("uuid3", "Tanya");
 
         String city = "Rostov-on-Don";
         resume.addContactTypeMap(ContactType.CITY, city);
@@ -94,5 +98,20 @@ public class ResumeTestData {
         resume.updateSectionTypeMap(SectionType.PERSONAL, qualifications);
 
         printResume(resume);
+
+        File dir = new File("D:\\DOCUM\\basejava\\directory");
+        dir.mkdir();
+
+        FileStorage directory = new FileStorage(dir);
+
+        directory.saveToStorage(dir, resume);
+        directory.saveToStorage(dir, resume1);
+        directory.saveToStorage(dir, resume2);
+        directory.saveToStorage(dir, resume3);
+
+        System.out.println(directory.size());
+        System.out.println("Clear directory");
+        directory.clear();
+        System.out.println(directory.size());
     }
 }

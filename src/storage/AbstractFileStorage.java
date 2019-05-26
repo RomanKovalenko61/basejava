@@ -3,7 +3,11 @@ package storage;
 import exception.StorageException;
 import model.Resume;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,8 +39,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void saveToStorage(File file, Resume resume) {
         try {
-            file.createNewFile();
-            doWrite(resume, file);
+            if (!file.createNewFile()) {
+                File resumeFile = new File(directory, resume.getUuid());
+                doWrite(resume, resumeFile);
+            }
         } catch (IOException e) {
             throw new StorageException("IO Exception", file.getName(), e);
         }
@@ -61,31 +67,44 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume getFromStorage(File file) {
-        try(FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)
+        try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
             return (Resume) ois.readObject();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new StorageException("IO Exception", file.getName(), e);
         }
-        return null;
     }
 
     @Override
     protected List<Resume> getCopyStorage() {
-        return null;
+        File[] folderEntries = getEntryFiles(directory);
+        List<Resume> copyStorage = new ArrayList<>();
+        for (File entry : Objects.requireNonNull(folderEntries, "wrong path - " + directory)) {
+            copyStorage.add(getFromStorage(entry));
+        }
+        return copyStorage;
     }
 
     @Override
     public void clear() {
-        //TODO: delete all files in directory
+        File[] folderEntries = getEntryFiles(directory);
+        for (File entry : Objects.requireNonNull(folderEntries, "wrong path - " + directory)) {
+            entry.delete();
+        }
+        directory.delete();
     }
 
     @Override
     public int size() {
-        return 0; // TODO: how much files in directory https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java)
+        File[] folderEntries = getEntryFiles(directory);
+        if (folderEntries != null) {
+            return folderEntries.length;
+        } else {
+            return 0;
+        }
+    }
+
+    private File[] getEntryFiles(File directory) {
+        return directory.listFiles();
     }
 }
