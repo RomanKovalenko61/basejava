@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,10 +79,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> getCopyStorage() {
         File[] folderEntries = getEntryFiles(directory);
         List<Resume> copyStorage = new ArrayList<>();
-        for (File entry : Objects.requireNonNull(folderEntries, "wrong path - " + directory)) {
-            copyStorage.add(getFromStorage(entry));
-        }
-        Collections.sort(copyStorage);
         return copyStorage;
     }
 

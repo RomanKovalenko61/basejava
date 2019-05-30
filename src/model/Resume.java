@@ -17,9 +17,9 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     private String fullName;
 
-    private Map<ContactType, String> contactTypeMap = new EnumMap<>(ContactType.class);
+    private Map<ContactType, String> contact = new EnumMap<>(ContactType.class);
 
-    private Map<SectionType, Section> sectionTypeMap = new EnumMap<>(SectionType.class);
+    private Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -41,11 +41,11 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public String getContactTypeMapValue(ContactType key) {
-        return contactTypeMap.get(key);
+        return contact.get(key);
     }
 
     public Section getSectionTypeMapValue(SectionType key) {
-        return sectionTypeMap.get(key);
+        return section.get(key);
     }
 
     public void setFullName(String fullName) {
@@ -53,19 +53,19 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public void addContactTypeMap(ContactType key, String value) {
-        contactTypeMap.put(key, value);
+        contact.put(key, value);
     }
 
     public void updateContactTypeMap(ContactType key, String value) {
-        contactTypeMap.put(key, value);
+        contact.put(key, value);
     }
 
     public void addSectionTypeMap(SectionType key, Section value) {
-        sectionTypeMap.put(key, value);
+        section.put(key, value);
     }
 
     public void updateSectionTypeMap(SectionType key, Section value) {
-        sectionTypeMap.put(key, value);
+        section.put(key, value);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class Resume implements Comparable<Resume>, Serializable {
 
         if (!uuid.equals(resume.uuid)) return false;
         if (!fullName.equals(resume.fullName)) return false;
-        if (!contactTypeMap.equals(resume.contactTypeMap)) return false;
-        return sectionTypeMap.equals(resume.sectionTypeMap);
+        if (!contact.equals(resume.contact)) return false;
+        return section.equals(resume.section);
 
     }
 
@@ -86,14 +86,14 @@ public class Resume implements Comparable<Resume>, Serializable {
     public int hashCode() {
         int result = uuid.hashCode();
         result = 31 * result + fullName.hashCode();
-        result = 31 * result + contactTypeMap.hashCode();
-        result = 31 * result + sectionTypeMap.hashCode();
+        result = 31 * result + contact.hashCode();
+        result = 31 * result + section.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "uuid = " + uuid + " fullname = " + fullName + "//n" + contactTypeMap + sectionTypeMap;
+        return "uuid = " + uuid + " fullname = " + fullName + "//n" + contact + section;
     }
 
     @Override
