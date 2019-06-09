@@ -103,19 +103,5 @@ public class ResumeTestData {
         if (!dir.exists()) {
             dir.mkdir();
         }
-
-        FileStorage directory = new FileStorage(dir);
-
-        directory.saveToStorage(dir, resume);
-        directory.saveToStorage(dir, resume1);
-        directory.saveToStorage(dir, resume2);
-        directory.saveToStorage(dir, resume3);
-
-        System.out.println(directory.size());
-        Resume resume2Test = directory.getFromStorage(directory.getSearchKey(resume2.getUuid()));
-        System.out.println(resume2.equals(resume2Test));
-        System.out.println("Clear directory");
-        directory.clear();
-        System.out.println(directory.size());
     }
 }

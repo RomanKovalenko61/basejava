@@ -4,9 +4,7 @@ import exception.StorageException;
 import model.Resume;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,10 +48,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     protected void deleteFromStorage(File file) {
-        file.delete();
+        boolean isDeleted = file.delete();
+        if (!isDeleted) {
+            throw new StorageException("IO Exception", file.getName());
+        }
     }
 
     @Override
@@ -67,18 +67,22 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume getFromStorage(File file) {
-        try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)
-        ) {
-            return (Resume) ois.readObject();
-        } catch (Exception e) {
+        try {
+            return doRead(file);
+        } catch (IOException e) {
             throw new StorageException("IO Exception", file.getName(), e);
         }
     }
+
+    protected abstract Resume doRead(File file) throws IOException;
 
     @Override
     protected List<Resume> getCopyStorage() {
         File[] folderEntries = getEntryFiles(directory);
         List<Resume> copyStorage = new ArrayList<>();
+        for (File entry : Objects.requireNonNull(folderEntries, "wrong path - " + directory)) {
+            copyStorage.add(getFromStorage(entry));
+        }
         return copyStorage;
     }
 
