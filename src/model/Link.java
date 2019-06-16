@@ -43,6 +43,6 @@ public class Link {
 
     @Override
     public String toString() {
-        return "title= " + title + " , " + " url='" + url;
+        return title;
     }
 }

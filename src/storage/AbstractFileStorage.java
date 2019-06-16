@@ -24,6 +24,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
+    protected abstract void doWrite(Resume resume, File file) throws IOException;
+
+    protected abstract Resume doRead(File file) throws IOException;
+
     @Override
     protected File getSearchKey(String uuid) {
         return new File(directory, uuid);
@@ -45,8 +49,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new StorageException("IO Exception", file.getName(), e);
         }
     }
-
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
 
     @Override
     protected void deleteFromStorage(File file) {
@@ -74,8 +76,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract Resume doRead(File file) throws IOException;
-
     @Override
     protected List<Resume> getCopyStorage() {
         File[] folderEntries = getEntryFiles(directory);
@@ -92,7 +92,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         for (File entry : Objects.requireNonNull(folderEntries, "wrong path - " + directory)) {
             entry.delete();
         }
-        directory.delete();
     }
 
     @Override

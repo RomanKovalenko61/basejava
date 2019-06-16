@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BulletListSection extends Section {
+public class ListSection extends Section {
 
     private List<String> listNote = new ArrayList<>();
 
@@ -20,7 +20,7 @@ public class BulletListSection extends Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BulletListSection that = (BulletListSection) o;
+        ListSection that = (ListSection) o;
 
         return listNote != null ? listNote.equals(that.listNote) : that.listNote == null;
 
