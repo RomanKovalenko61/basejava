@@ -3,8 +3,7 @@ package storage;
 import exception.StorageException;
 import model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +11,10 @@ import java.util.Objects;
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     private File directory;
+
+    protected abstract void doWrite(Resume resume, OutputStream os) throws IOException;
+
+    protected abstract Resume doRead(InputStream is) throws IOException;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be null");
@@ -23,10 +26,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
         this.directory = directory;
     }
-
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
-
-    protected abstract Resume doRead(File file) throws IOException;
 
     @Override
     protected File getSearchKey(String uuid) {
@@ -41,38 +40,35 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void saveToStorage(File file, Resume resume) {
         try {
-            if (!file.createNewFile()) {
-                File resumeFile = new File(directory, resume.getUuid());
-                doWrite(resume, resumeFile);
-            }
+            file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("IO Exception", file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), resume.getUuid(), e);
         }
+        updateToStorage(file, resume);
     }
 
     @Override
     protected void deleteFromStorage(File file) {
-        boolean isDeleted = file.delete();
-        if (!isDeleted) {
-            throw new StorageException("IO Exception", file.getName());
+        if (file.delete()) {
+            throw new StorageException("File delete error ", file.getName());
         }
     }
 
     @Override
     protected void updateToStorage(File file, Resume resume) {
         try {
-            doWrite(resume, file);
+            doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO Exception", file.getName(), e);
+            throw new StorageException("File write error", resume.getUuid(), e);
         }
     }
 
     @Override
     protected Resume getFromStorage(File file) {
         try {
-            return doRead(file);
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO Exception", file.getName(), e);
+            throw new StorageException("File read error ", file.getName(), e);
         }
     }
 

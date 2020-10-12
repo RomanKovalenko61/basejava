@@ -7,12 +7,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class AbstractStorageTest {
-
+    protected static final File STORAGE_DIR = new File("C:/Users/Roman/basejava/fileStorage");
     Storage storage;
     private final String UUID_1 = "uuid1";
     private final String UUID_2 = "uuid2";

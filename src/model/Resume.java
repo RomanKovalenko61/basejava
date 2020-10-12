@@ -11,15 +11,15 @@ import java.util.UUID;
  */
 public class Resume implements Comparable<Resume>, Serializable {
 
-    private static final long serialVersionUID = 6588620525657485165L;
-    // Unique identifier
+    private static final long serialVersionUID = 588620525657485165L;
+
     private final String uuid;
 
     private String fullName;
 
-    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
-    private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -75,30 +75,21 @@ public class Resume implements Comparable<Resume>, Serializable {
 
         Resume resume = (Resume) o;
 
-        if (!uuid.equals(resume.uuid)) return false;
-        if (!fullName.equals(resume.fullName)) return false;
-        if (!contacts.equals(resume.contacts)) return false;
-        return sections.equals(resume.sections);
-
+        return uuid.equals(resume.uuid);
     }
 
     @Override
     public int hashCode() {
-        int result = uuid.hashCode();
-        result = 31 * result + fullName.hashCode();
-        result = 31 * result + contacts.hashCode();
-        result = 31 * result + sections.hashCode();
-        return result;
+        return uuid.hashCode();
     }
 
     @Override
     public String toString() {
-        return "uuid = " + uuid + " fullname = " + fullName + "//n" + contacts + sections;
+        return "uuid = " + uuid + " fullname = " + fullName + "\n";
     }
 
     @Override
     public int compareTo(Resume resume) {
-        int result = fullName.compareTo(resume.fullName);
-        return result == 0 ? uuid.compareTo(resume.uuid) : result;
+        return uuid.compareTo(resume.uuid);
     }
 }

@@ -14,7 +14,7 @@ public class MainFile {
             throw new RuntimeException("Error", e);
         }
 
-        File dir = new File("./src/ru/javawebinar/basejava");
+        File dir = new File("C:\\Users\\Roman\\basejava\\src");
         System.out.println(dir.isDirectory());
         String[] list = dir.list();
         if (list != null) {
@@ -30,7 +30,9 @@ public class MainFile {
         }
 
         //HW08 print names
-        File folder = new File("D:\\DOCUM\\basejava\\src");
+        File folder = new File("src");
+
+        System.out.println("This function printing names dirs and files in " + folder.getAbsolutePath());
         printNamesFilesFromFolder(folder);
 
     }
@@ -39,9 +41,12 @@ public class MainFile {
         File[] folderEntries = folder.listFiles();
         for (File entry : Objects.requireNonNull(folderEntries, "wrong path - " + folder)) {
             if (entry.isDirectory()) {
+                System.out.println("DIR : " + entry.getName());
                 printNamesFilesFromFolder(entry);
+            } else if (entry.getParent().equals(folder.getName())) {
+                System.out.println("File - " + entry.getName());
             } else {
-                System.out.println(entry.getName());
+                System.out.println("\t + File - " + entry.getName());
             }
         }
     }
