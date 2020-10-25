@@ -1,12 +1,17 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Objects;
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link {
 
     private String title;
 
     private String url;
+
+    public Link() {
+    }
 
     public Link(String title, String url) {
         Objects.requireNonNull(title, "title must not be null");
