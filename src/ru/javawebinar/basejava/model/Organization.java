@@ -102,7 +102,7 @@ public class Organization {
 
         @Override
         public String toString() {
-            return startDate + " : " + endDate + " - " + description;
+            return startDate + " : " + endDate + "\t" + description;
         }
     }
 }

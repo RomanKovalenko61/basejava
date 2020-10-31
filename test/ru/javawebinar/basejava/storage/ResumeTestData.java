@@ -99,5 +99,8 @@ public class ResumeTestData {
 
         Storage storage = new PathStorage("C:\\Users\\Roman\\basejava\\src\\ru\\javawebinar\\basejava\\folder", new DataStreamSerializer());
         storage.save(resume);
+
+        Resume resumeRead = storage.get("uuid0");
+        printResume(resumeRead);
     }
 }
