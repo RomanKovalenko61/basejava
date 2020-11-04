@@ -23,6 +23,14 @@ public class OrganizationSection extends Section {
         return organizations;
     }
 
+    public Organization getOrganization(int index) {
+        return organizations.get(index);
+    }
+
+    public int getSize() {
+        return organizations.size();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

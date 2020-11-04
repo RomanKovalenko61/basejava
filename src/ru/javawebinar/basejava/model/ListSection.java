@@ -40,4 +40,12 @@ public class ListSection extends Section {
         }
         return sb.toString();
     }
+
+    public int getSize() {
+        return listNote.size();
+    }
+
+    public String getNote(int index) {
+        return listNote.get(index);
+    }
 }

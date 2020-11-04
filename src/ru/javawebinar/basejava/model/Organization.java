@@ -28,6 +28,18 @@ public class Organization {
         listPosition.add(new Position(startDate, endDate, description));
     }
 
+    public Position getPosition(int index) {
+        return listPosition.get(index);
+    }
+
+    public int getSize() {
+        return listPosition.size();
+    }
+
+    public Link getPlace() {
+        return place;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,7 +114,19 @@ public class Organization {
 
         @Override
         public String toString() {
-            return startDate + " : " + endDate + "\t" + description;
+            return startDate + " : " + endDate + " - " + description;
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }
