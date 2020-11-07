@@ -32,7 +32,7 @@ public class Organization {
         return listPosition.get(index);
     }
 
-    public int getSize() {
+    public int getListPositionSize() {
         return listPosition.size();
     }
 

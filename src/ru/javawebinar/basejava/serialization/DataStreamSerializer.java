@@ -24,39 +24,39 @@ public class DataStreamSerializer implements Serializer {
 
             Map<SectionType, Section> section = resume.getSections();
             dos.writeInt(section.size());
-            int sizeSection;
+
             for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
-                String name = entry.getKey().name();
-                dos.writeUTF(name);
-                switch (name) {
-                    case ("PERSONAL"):
-                    case ("OBJECTIVE"):
+
+                switch (entry.getKey()) {
+                    case PERSONAL:
+                    case OBJECTIVE:
                         TextSection text = (TextSection) entry.getValue();
-                        dos.writeUTF(name);
+                        dos.writeUTF(entry.getKey().name());
                         dos.writeUTF(text.getText());
                         break;
-                    case ("ACHIEVEMENT"):
-                    case ("QUALIFICATIONS"):
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         ListSection listSection = (ListSection) entry.getValue();
-                        sizeSection = listSection.getSize();
-                        dos.writeInt(sizeSection);
-                        for (int i = 0; i < sizeSection; i++) {
+                        dos.writeUTF(entry.getKey().name());
+                        int sizeListSection = listSection.getSize();
+                        dos.writeInt(sizeListSection);
+                        for (int i = 0; i < sizeListSection; i++) {
                             dos.writeUTF(listSection.getNote(i));
                         }
                         break;
-                    case ("EDUCATION"):
-                    case ("EXPERIENCE"):
-                        int listSize;
+                    case EDUCATION:
+                    case EXPERIENCE:
                         OrganizationSection organizationSection = (OrganizationSection) entry.getValue();
-                        sizeSection = organizationSection.getSize();
-                        dos.writeInt(sizeSection);
-                        for (int i = 0; i < sizeSection; i++) {
+                        dos.writeUTF(entry.getKey().name());
+                        int sizeOrganizationSection = organizationSection.getSize();
+                        dos.writeInt(sizeOrganizationSection);
+                        for (int i = 0; i < sizeOrganizationSection; i++) {
                             Organization org = organizationSection.getOrganization(i);
-                            dos.writeUTF(org.getPlace().getTitle()); // Link
-                            listSize = org.getSize(); // size list<Position> in Organization
-                            dos.writeInt(listSize);
+                            dos.writeUTF(org.getPlace().getTitle());
+                            int listPositionSize = org.getListPositionSize();
+                            dos.writeInt(listPositionSize);
 
-                            for (int j = 0; j < listSize; j++) {
+                            for (int j = 0; j < listPositionSize; j++) {
                                 Organization.Position position = org.getPosition(j);
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
@@ -75,45 +75,43 @@ public class DataStreamSerializer implements Serializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            int sizeContactMap = dis.readInt();
+            for (int i = 0; i < sizeContactMap; i++) {
                 resume.addContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
 
-            size = dis.readInt();
+            int sizeSectionMap = dis.readInt();
 
-            for (int i = 0; i < size; i++) {
-                String name;
-                int sizeSection;
-                name = dis.readUTF();
-                switch (name) {
-                    case ("PERSONAL"):
-                    case ("OBJECTIVE"):
-                        resume.addSections(SectionType.valueOf(dis.readUTF()), new TextSection(dis.readUTF()));
+            for (int i = 0; i < sizeSectionMap; i++) {
+                SectionType type = SectionType.valueOf(dis.readUTF());
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        resume.addSections(type, new TextSection(dis.readUTF()));
                         break;
-                    case ("ACHIEVEMENT"):
-                    case ("QUALIFICATIONS"):
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        int sizeListSection = dis.readInt();
                         ListSection listSection = new ListSection();
-                        sizeSection = dis.readInt();
-                        for (int j = 0; j < sizeSection; j++) {
+                        for (int j = 0; j < sizeListSection; j++) {
                             listSection.addNoteToList(dis.readUTF());
                         }
-                        resume.addSections(SectionType.valueOf(name), listSection);
+                        resume.addSections(type, listSection);
                         break;
 
-                    case ("EDUCATION"):
-                    case ("EXPERIENCE"):
-                        int sizeList = dis.readInt();
-                        List<Organization> organizations = new ArrayList<>(sizeList);
-                        for (int j = 0; j < sizeList; j++) {
+                    case EDUCATION:
+                    case EXPERIENCE:
+                        int sizeOrganizationList = dis.readInt();
+                        List<Organization> organizations = new ArrayList<>(sizeOrganizationList);
+                        for (int j = 0; j < sizeOrganizationList; j++) {
                             Organization org = new Organization(dis.readUTF(), "");
-                            int listSize = dis.readInt();
-                            for (int k = 0; k < listSize; k++) {
+                            int positionListSize = dis.readInt();
+                            for (int k = 0; k < positionListSize; k++) {
                                 org.addNoteToPosition(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF());
                             }
                             organizations.add(org);
                         }
-                        resume.addSections(SectionType.valueOf(name), new OrganizationSection(organizations));
+                        resume.addSections(type, new OrganizationSection(organizations));
                         break;
                 }
             }
