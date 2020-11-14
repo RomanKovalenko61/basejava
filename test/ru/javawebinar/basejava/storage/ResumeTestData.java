@@ -66,18 +66,18 @@ public class ResumeTestData {
         resume.addSections(SectionType.QUALIFICATIONS, qualifications);
 
         Organization education = new Organization("DSTU", "");
-        education.addNoteToPosition(LocalDate.of(2007, 5, 1), LocalDate.of(2010, 5, 1), "Mehatronics");
+        education.addNoteToPosition(LocalDate.of(2007, 5, 1), LocalDate.of(2010, 5, 1), "student", "Mehatronics");
         OrganizationSection educationSection = new OrganizationSection(education);
         resume.addSections(SectionType.EDUCATION, educationSection);
 
 
         Organization experience = new Organization("Javaops", "");
-        experience.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee");
+        experience.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee", null);
 
 
         Organization experience1 = new Organization("Javarush", "");
-        experience1.addNoteToPosition(LocalDate.of(2018, 1, 21), LocalDate.of(2019, 8, 21), "listener");
-        experience1.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "spectator");
+        experience1.addNoteToPosition(LocalDate.of(2018, 1, 21), LocalDate.of(2019, 8, 21), "listener", null);
+        experience1.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "spectator", null);
 
         resume.addSections(SectionType.EXPERIENCE, new OrganizationSection(experience, experience1));
 
@@ -97,7 +97,7 @@ public class ResumeTestData {
 
         printResume(resume);
 
-        Storage storage = new PathStorage("C:\\Users\\Roman\\basejava\\src\\ru\\javawebinar\\basejava\\folder", new DataStreamSerializer());
+        Storage storage = new PathStorage("src\\ru\\javawebinar\\basejava\\folder", new DataStreamSerializer());
         storage.save(resume);
 
         Resume resumeRead = storage.get("uuid0");

@@ -5,6 +5,6 @@ import ru.javawebinar.basejava.serialization.JsonStreamSerializer;
 public class JsonPathStorageTest extends AbstractStorageTest {
 
     public JsonPathStorageTest() {
-        super(new PathStorage("C:\\Users\\Roman\\basejava\\src\\ru\\javawebinar\\basejava\\folder", new JsonStreamSerializer()));
+        super(new PathStorage(STORAGE_DIR.toString(), new JsonStreamSerializer()));
     }
 }

@@ -26,12 +26,12 @@ public class DataStreamSerializer implements Serializer {
             dos.writeInt(section.size());
 
             for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
-
-                switch (entry.getKey()) {
+                SectionType sectionType = entry.getKey();
+                switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
                         TextSection text = (TextSection) entry.getValue();
-                        dos.writeUTF(entry.getKey().name());
+                        dos.writeUTF(sectionType.name());
                         dos.writeUTF(text.getText());
                         break;
                     case ACHIEVEMENT:
@@ -60,6 +60,7 @@ public class DataStreamSerializer implements Serializer {
                                 Organization.Position position = org.getPosition(j);
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
+                                dos.writeUTF(position.getTitle());
                                 dos.writeUTF(position.getDescription());
                             }
                         }
@@ -107,7 +108,7 @@ public class DataStreamSerializer implements Serializer {
                             Organization org = new Organization(dis.readUTF(), "");
                             int positionListSize = dis.readInt();
                             for (int k = 0; k < positionListSize; k++) {
-                                org.addNoteToPosition(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF());
+                                org.addNoteToPosition(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF());
                             }
                             organizations.add(org);
                         }

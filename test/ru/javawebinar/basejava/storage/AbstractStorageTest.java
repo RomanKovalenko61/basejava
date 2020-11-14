@@ -1,30 +1,77 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.model.*;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("C:\\Users\\Roman\\basejava\\src\\ru\\javawebinar\\basejava\\folder");
+    protected static final File STORAGE_DIR = new File("src\\ru\\javawebinar\\basejava\\folder");
     Storage storage;
-    private final String UUID_1 = "uuid1";
-    private final String UUID_2 = "uuid2";
-    private final String UUID_3 = "uuid3";
-    private final String UUID_4 = "uuid4";
-    private Resume RESUME_1 = new Resume(UUID_1, "Alex");
-    private Resume RESUME_2 = new Resume(UUID_2, "Boris");
-    private Resume RESUME_3 = new Resume(UUID_3, "Tanya");
-    Resume DUMMY = new Resume(UUID_4, "dummy");
+    private static final String UUID_1 = "uuid1";
+    private static final String UUID_2 = "uuid2";
+    private static final String UUID_3 = "uuid3";
+    private static final String UUID_4 = "uuid4";
+    private final static Resume RESUME_1;
+    private final static Resume RESUME_2;
+    private final static Resume RESUME_3;
+    protected final static Resume DUMMY;
 
-    AbstractStorageTest(Storage storage) {
+    static {
+        RESUME_1 = new Resume(UUID_1, "Roman");
+        RESUME_2 = new Resume(UUID_2, "Name2");
+        RESUME_3 = new Resume(UUID_3, "Name3");
+        DUMMY = new Resume(UUID_4, "dummy");
+
+
+        RESUME_1.addContacts(ContactType.CITY, "Rostov-on-Don");
+        RESUME_1.addContacts(ContactType.PHONE, "8-800-535-35-35");
+        RESUME_1.addContacts(ContactType.EMAIL, "astek14@mail.ru");
+        RESUME_1.addContacts(ContactType.SKYPE, "evil_romashka");
+        RESUME_1.addContacts(ContactType.PROFILE_HABR, "astek14");
+        RESUME_1.addContacts(ContactType.PROFILE_STACK, "astek14");
+        RESUME_1.addContacts(ContactType.ACCOUNT_GIT, "RomanKovalenko61");
+
+        RESUME_1.addSections(SectionType.OBJECTIVE, new TextSection("trainee"));
+        RESUME_1.addSections(SectionType.PERSONAL, new TextSection("active, friendly"));
+
+        ListSection achievement = new ListSection();
+        achievement.addNoteToList("Начал изучать Javarush");
+        achievement.addNoteToList("Поступил на крутую стажировку basejava");
+        RESUME_1.addSections(SectionType.ACHIEVEMENT, achievement);
+
+        ListSection qualifications = new ListSection();
+        qualifications.addNoteToList("Java core");
+        qualifications.addNoteToList("Java Collections Framework");
+        RESUME_1.addSections(SectionType.QUALIFICATIONS, qualifications);
+
+        Organization education = new Organization("DSTU", "http://dstu.ru/");
+        education.addNoteToPosition(LocalDate.of(2007, 5, 1), LocalDate.of(2010, 5, 1), "student", "Mehatronics");
+        OrganizationSection educationSection = new OrganizationSection(education);
+        RESUME_1.addSections(SectionType.EDUCATION, educationSection);
+
+        Organization experience = new Organization("Javaops", "");
+        experience.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee", null);
+
+        Organization experience1 = new Organization("Javarush", "");
+        experience1.addNoteToPosition(LocalDate.of(2018, 1, 21), LocalDate.of(2019, 8, 21), "listener", null);
+        experience1.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "spectator", null);
+
+        RESUME_1.addSections(SectionType.EXPERIENCE, new OrganizationSection(experience, experience1));
+
+        RESUME_2.addContacts(ContactType.SKYPE, "skype2");
+        RESUME_2.addContacts(ContactType.PHONE, "22222");
+    }
+
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -85,7 +132,7 @@ public class AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(UUID_2, "Boris Blade");
         storage.update(newResume);
-        Assert.assertTrue(newResume.equals(RESUME_2));
+        Assert.assertEquals(newResume, RESUME_2);
     }
 
     @Test(expected = NotExistStorageException.class)
