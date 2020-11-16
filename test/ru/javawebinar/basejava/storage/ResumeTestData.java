@@ -65,17 +65,17 @@ public class ResumeTestData {
         qualifications.addNoteToList("Java Collections Framework");
         resume.addSections(SectionType.QUALIFICATIONS, qualifications);
 
-        Organization education = new Organization("DSTU", "");
+        Organization education = new Organization("DSTU", "dstu.ru");
         education.addNoteToPosition(LocalDate.of(2007, 5, 1), LocalDate.of(2010, 5, 1), "student", "Mehatronics");
         OrganizationSection educationSection = new OrganizationSection(education);
         resume.addSections(SectionType.EDUCATION, educationSection);
 
 
-        Organization experience = new Organization("Javaops", "");
+        Organization experience = new Organization("Javaops", "javarush.ru");
         experience.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee", null);
 
 
-        Organization experience1 = new Organization("Javarush", "");
+        Organization experience1 = new Organization("Javarush", "javarush.ru");
         experience1.addNoteToPosition(LocalDate.of(2018, 1, 21), LocalDate.of(2019, 8, 21), "listener", null);
         experience1.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "spectator", null);
 
@@ -102,5 +102,10 @@ public class ResumeTestData {
 
         Resume resumeRead = storage.get("uuid0");
         printResume(resumeRead);
+
+        System.out.println(resume.equals(storage.get("uuid0")));
+        System.out.println(resume.getSections().hashCode());
+        System.out.println(storage.get("uuid0").getSections().hashCode());
+
     }
 }

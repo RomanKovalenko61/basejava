@@ -22,7 +22,7 @@ public class ListSection extends Section {
 
         ListSection that = (ListSection) o;
 
-        return listNote != null ? listNote.equals(that.listNote) : that.listNote == null;
+        return listNote.equals(that.listNote);
 
     }
 

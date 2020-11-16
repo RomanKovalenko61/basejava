@@ -27,17 +27,16 @@ public class DataStreamSerializer implements Serializer {
 
             for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
                 SectionType sectionType = entry.getKey();
+                dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
                         TextSection text = (TextSection) entry.getValue();
-                        dos.writeUTF(sectionType.name());
                         dos.writeUTF(text.getText());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         ListSection listSection = (ListSection) entry.getValue();
-                        dos.writeUTF(entry.getKey().name());
                         int sizeListSection = listSection.getSize();
                         dos.writeInt(sizeListSection);
                         for (int i = 0; i < sizeListSection; i++) {
@@ -47,12 +46,12 @@ public class DataStreamSerializer implements Serializer {
                     case EDUCATION:
                     case EXPERIENCE:
                         OrganizationSection organizationSection = (OrganizationSection) entry.getValue();
-                        dos.writeUTF(entry.getKey().name());
                         int sizeOrganizationSection = organizationSection.getSize();
                         dos.writeInt(sizeOrganizationSection);
                         for (int i = 0; i < sizeOrganizationSection; i++) {
                             Organization org = organizationSection.getOrganization(i);
                             dos.writeUTF(org.getPlace().getTitle());
+                            dos.writeUTF(org.getPlace().getUrl());
                             int listPositionSize = org.getListPositionSize();
                             dos.writeInt(listPositionSize);
 
@@ -105,7 +104,7 @@ public class DataStreamSerializer implements Serializer {
                         int sizeOrganizationList = dis.readInt();
                         List<Organization> organizations = new ArrayList<>(sizeOrganizationList);
                         for (int j = 0; j < sizeOrganizationList; j++) {
-                            Organization org = new Organization(dis.readUTF(), "");
+                            Organization org = new Organization(dis.readUTF(), dis.readUTF());
                             int positionListSize = dis.readInt();
                             for (int k = 0; k < positionListSize; k++) {
                                 org.addNoteToPosition(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF());

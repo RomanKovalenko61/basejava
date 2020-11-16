@@ -9,8 +9,8 @@ import ru.javawebinar.basejava.model.*;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class AbstractStorageTest {
@@ -53,15 +53,15 @@ public class AbstractStorageTest {
         qualifications.addNoteToList("Java Collections Framework");
         RESUME_1.addSections(SectionType.QUALIFICATIONS, qualifications);
 
-        Organization education = new Organization("DSTU", "http://dstu.ru/");
+        Organization education = new Organization("DSTU", "dstu.ru");
         education.addNoteToPosition(LocalDate.of(2007, 5, 1), LocalDate.of(2010, 5, 1), "student", "Mehatronics");
         OrganizationSection educationSection = new OrganizationSection(education);
         RESUME_1.addSections(SectionType.EDUCATION, educationSection);
 
-        Organization experience = new Organization("Javaops", "");
+        Organization experience = new Organization("Javaops", "javaops.ru");
         experience.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "trainee", null);
 
-        Organization experience1 = new Organization("Javarush", "");
+        Organization experience1 = new Organization("Javarush", "javarush.ru");
         experience1.addNoteToPosition(LocalDate.of(2018, 1, 21), LocalDate.of(2019, 8, 21), "listener", null);
         experience1.addNoteToPosition(LocalDate.of(2019, 1, 21), LocalDate.of(2019, 8, 21), "spectator", null);
 
@@ -120,7 +120,7 @@ public class AbstractStorageTest {
 
     @Test
     public void get() {
-        Assert.assertEquals(RESUME_2, storage.get(UUID_2));
+        Assert.assertEquals(RESUME_1, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -132,7 +132,7 @@ public class AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(UUID_2, "Boris Blade");
         storage.update(newResume);
-        Assert.assertEquals(newResume, RESUME_2);
+        Assert.assertTrue(newResume.equals(storage.get(UUID_2)));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -142,9 +142,8 @@ public class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
-        Collections.sort(resumes);
         List<Resume> allResume = storage.getAllSorted();
-        Assert.assertEquals(resumes, allResume);
+        Assert.assertEquals(3, allResume.size());
+        Assert.assertEquals(allResume, new ArrayList<>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3)));
     }
 }

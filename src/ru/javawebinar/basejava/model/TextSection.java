@@ -26,7 +26,7 @@ public class TextSection extends Section {
 
         TextSection that = (TextSection) o;
 
-        return text != null ? text.equals(that.text) : that.text == null;
+        return text.equals(that.text);
 
     }
 

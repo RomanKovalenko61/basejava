@@ -50,6 +50,6 @@ public class Link implements Serializable {
 
     @Override
     public String toString() {
-        return title;
+        return "title=" + title + ", url= " + url;
     }
 }
