@@ -23,6 +23,10 @@ public class OrganizationSection extends Section {
         return organizations.get(index);
     }
 
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
+
     public int getSize() {
         return organizations.size();
     }

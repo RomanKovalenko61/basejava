@@ -34,6 +34,10 @@ public class Organization implements Serializable {
         return listPosition.get(index);
     }
 
+    public List<Position> getListPosition() {
+        return listPosition;
+    }
+
     public int getListPositionSize() {
         return listPosition.size();
     }

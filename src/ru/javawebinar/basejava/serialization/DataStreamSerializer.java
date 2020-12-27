@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,56 +17,39 @@ public class DataStreamSerializer implements Serializer {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            writeCollection(dos, contacts.entrySet(), (entry) -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
 
             Map<SectionType, Section> section = resume.getSections();
-            dos.writeInt(section.size());
-
-            for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
+            writeCollection(dos, section.entrySet(), (entry) -> {
                 SectionType sectionType = entry.getKey();
                 dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        TextSection text = (TextSection) entry.getValue();
-                        dos.writeUTF(text.getText());
+                        dos.writeUTF(((TextSection) entry.getValue()).getText());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        ListSection listSection = (ListSection) entry.getValue();
-                        int sizeListSection = listSection.getSize();
-                        dos.writeInt(sizeListSection);
-                        for (int i = 0; i < sizeListSection; i++) {
-                            dos.writeUTF(listSection.getNote(i));
-                        }
+                        writeCollection(dos, ((ListSection) entry.getValue()).getListNote(), dos::writeUTF);
                         break;
                     case EDUCATION:
                     case EXPERIENCE:
-                        OrganizationSection organizationSection = (OrganizationSection) entry.getValue();
-                        int sizeOrganizationSection = organizationSection.getSize();
-                        dos.writeInt(sizeOrganizationSection);
-                        for (int i = 0; i < sizeOrganizationSection; i++) {
-                            Organization org = organizationSection.getOrganization(i);
+                        writeCollection(dos, ((OrganizationSection) entry.getValue()).getOrganizations(), org -> {
                             dos.writeUTF(org.getPlace().getTitle());
                             dos.writeUTF(org.getPlace().getUrl());
-                            int listPositionSize = org.getListPositionSize();
-                            dos.writeInt(listPositionSize);
-
-                            for (int j = 0; j < listPositionSize; j++) {
-                                Organization.Position position = org.getPosition(j);
+                            writeCollection(dos, org.getListPosition(), position -> {
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
                                 dos.writeUTF(position.getTitle());
                                 dos.writeUTF(position.getDescription());
-                            }
-                        }
+                            });
+                        });
                         break;
                 }
-            }
+            });
         }
     }
 
@@ -116,6 +100,13 @@ public class DataStreamSerializer implements Serializer {
                 }
             }
             return resume;
+        }
+    }
+
+    public static <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> write) throws IOException {
+        dos.writeInt(collection.size());
+        for (T item : collection) {
+            write.writer(item);
         }
     }
 }

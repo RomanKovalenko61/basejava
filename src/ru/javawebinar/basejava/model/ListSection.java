@@ -48,4 +48,8 @@ public class ListSection extends Section {
     public String getNote(int index) {
         return listNote.get(index);
     }
+
+    public List<String> getListNote() {
+        return listNote;
+    }
 }
