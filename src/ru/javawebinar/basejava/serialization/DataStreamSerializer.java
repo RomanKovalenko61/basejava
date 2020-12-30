@@ -56,17 +56,9 @@ public class DataStreamSerializer implements Serializer {
     @Override
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
-            String uuid = dis.readUTF();
-            String fullName = dis.readUTF();
-            Resume resume = new Resume(uuid, fullName);
-            int sizeContactMap = dis.readInt();
-            for (int i = 0; i < sizeContactMap; i++) {
-                resume.addContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-
-            int sizeSectionMap = dis.readInt();
-
-            for (int i = 0; i < sizeSectionMap; i++) {
+            Resume resume = new Resume(dis.readUTF(), dis.readUTF());
+            readSimpleString(dis, () -> resume.addContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readSimpleString(dis, () -> {
                 SectionType type = SectionType.valueOf(dis.readUTF());
                 switch (type) {
                     case PERSONAL:
@@ -75,38 +67,37 @@ public class DataStreamSerializer implements Serializer {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        int sizeListSection = dis.readInt();
                         ListSection listSection = new ListSection();
-                        for (int j = 0; j < sizeListSection; j++) {
-                            listSection.addNoteToList(dis.readUTF());
-                        }
+                        readSimpleString(dis, () -> listSection.addNoteToList(dis.readUTF()));
                         resume.addSections(type, listSection);
                         break;
-
                     case EDUCATION:
                     case EXPERIENCE:
-                        int sizeOrganizationList = dis.readInt();
-                        List<Organization> organizations = new ArrayList<>(sizeOrganizationList);
-                        for (int j = 0; j < sizeOrganizationList; j++) {
+                        List<Organization> organizations = new ArrayList<>();
+                        readSimpleString(dis, () -> {
                             Organization org = new Organization(dis.readUTF(), dis.readUTF());
-                            int positionListSize = dis.readInt();
-                            for (int k = 0; k < positionListSize; k++) {
-                                org.addNoteToPosition(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF());
-                            }
+                            readSimpleString(dis, () -> org.addNoteToPosition(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF()));
                             organizations.add(org);
-                        }
+                        });
                         resume.addSections(type, new OrganizationSection(organizations));
                         break;
                 }
-            }
+            });
             return resume;
         }
     }
 
-    public static <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> write) throws IOException {
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> write) throws IOException {
         dos.writeInt(collection.size());
         for (T item : collection) {
             write.writer(item);
+        }
+    }
+
+    private void readSimpleString(DataInputStream dis, ElementReader reader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            reader.read();
         }
     }
 }
