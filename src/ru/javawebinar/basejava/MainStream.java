@@ -20,7 +20,7 @@ public class MainStream {
     public List<Integer> OddOrEven(List<Integer> integers) {
         AtomicInteger sum = new AtomicInteger();
         Map<Boolean, List<Integer>> collect = integers.stream().peek(sum::addAndGet).collect(Collectors.partitioningBy(p -> p % 2 == 0));
-        return sum.get() % 2 == 0 ? collect.get(false) : collect.get(true);
+        return collect.get(sum.get() % 2 != 0);
     }
 
     public List<Integer> fillListIntegerToTwentyNumbers() {
