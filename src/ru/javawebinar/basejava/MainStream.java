@@ -7,14 +7,7 @@ import java.util.stream.Collectors;
 public class MainStream {
 
     public int intValue(int[] values) {
-        Queue<Integer> powsOfTen = new ArrayDeque<>();
-        final int TEN = 10;
-        int degree = 0;
-        final int MAX_DEGREE = 9; // lg 1_000_000_000 = 9
-        for (int i = 0; i < MAX_DEGREE; i++) {
-            powsOfTen.add((int) Math.pow(TEN, degree++));
-        }
-        return Arrays.stream(values).distinct().mapToObj(e -> e).sorted((o1, o2) -> -o1.compareTo(o2)).map(x -> x * powsOfTen.poll()).reduce(0, Integer::sum);
+        return Arrays.stream(values).distinct().sorted().reduce(0, (x, y) -> x * 10 + y);
     }
 
     public List<Integer> OddOrEven(List<Integer> integers) {
@@ -36,7 +29,7 @@ public class MainStream {
 
     public static void main(String[] args) {
         MainStream ms = new MainStream();
-        System.out.println(ms.intValue(new int[]{9, 8}));
+        System.out.println(ms.intValue(new int[]{3, 2, 1, 2, 3, 1, 3}));
         System.out.println("====================================");
         List<Integer> integerList = ms.fillListIntegerToTwentyNumbers();
         System.out.println("====================================");
