@@ -3,18 +3,18 @@ package ru.javawebinar.basejava.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.model.*;
+import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("src\\ru\\javawebinar\\basejava\\folder");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -31,7 +31,7 @@ public class AbstractStorageTest {
         RESUME_3 = new Resume(UUID_3, "Name3");
         DUMMY = new Resume(UUID_4, "dummy");
 
-
+/*
         RESUME_1.addContacts(ContactType.CITY, "Rostov-on-Don");
         RESUME_1.addContacts(ContactType.PHONE, "8-800-535-35-35");
         RESUME_1.addContacts(ContactType.EMAIL, "astek14@mail.ru");
@@ -69,6 +69,7 @@ public class AbstractStorageTest {
 
         RESUME_2.addContacts(ContactType.SKYPE, "skype2");
         RESUME_2.addContacts(ContactType.PHONE, "22222");
+ */
     }
 
     protected AbstractStorageTest(Storage storage) {
