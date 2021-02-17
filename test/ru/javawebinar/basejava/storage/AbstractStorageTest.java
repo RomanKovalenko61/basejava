@@ -6,6 +6,7 @@ import org.junit.Test;
 import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class AbstractStorageTest {
         RESUME_3 = new Resume(UUID_3, "Name3");
         DUMMY = new Resume(UUID_4, "dummy");
 
-/*
+
         RESUME_1.addContacts(ContactType.CITY, "Rostov-on-Don");
         RESUME_1.addContacts(ContactType.PHONE, "8-800-535-35-35");
         RESUME_1.addContacts(ContactType.EMAIL, "astek14@mail.ru");
@@ -38,6 +39,9 @@ public class AbstractStorageTest {
         RESUME_1.addContacts(ContactType.PROFILE_STACK, "astek14");
         RESUME_1.addContacts(ContactType.ACCOUNT_GIT, "RomanKovalenko61");
 
+        DUMMY.addContacts(ContactType.SKYPE, "Dummy Skype");
+        DUMMY.addContacts(ContactType.PHONE, "8-800-800-80-80");
+/*
         RESUME_1.addSections(SectionType.OBJECTIVE, new TextSection("trainee"));
         RESUME_1.addSections(SectionType.PERSONAL, new TextSection("active, friendly"));
 
@@ -130,6 +134,9 @@ public class AbstractStorageTest {
     @Test
     public void update() {
         Resume newResume = new Resume(UUID_2, "Boris Blade");
+        RESUME_2.addContacts(ContactType.EMAIL, "boris@gmail.com");
+        RESUME_2.addContacts(ContactType.SKYPE, "Skype");
+        RESUME_2.addContacts(ContactType.PHONE, "2525252");
         storage.update(newResume);
         Assert.assertTrue(newResume.equals(storage.get(UUID_2)));
     }
@@ -145,6 +152,6 @@ public class AbstractStorageTest {
         List<Resume> testResume = new ArrayList<>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
         Collections.sort(testResume);
         Assert.assertEquals(3, allResume.size());
-        Assert.assertEquals(allResume, testResume);
+        Assert.assertEquals(testResume, allResume);
     }
 }
